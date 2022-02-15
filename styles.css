@@ -12,3 +12,10 @@ p {
     text-align: left;
     max-width: 1000px;
 }
+
+button {
+    padding: 0.5em 1.5em 0.5em 1.5em;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+}

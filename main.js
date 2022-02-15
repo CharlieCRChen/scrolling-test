@@ -9,7 +9,7 @@ function getRandomInt(max) {
   }
 
 posY = 70;
-posX_text = ["1%","95%","91%"]
+posX_text = ["1%","95%","88%"]
 posX_rect = ["15%", "45%", "75%"];
 posX_circle = ["20%", "50%", "80%"];
 posX_triangle = [200, 500, 800];
@@ -127,6 +127,17 @@ $( window ).resize(function(){
     })
 })
 
+var total_height = window.innerHeight;
+var navbar_height = document.getElementById("nav").clientHeight;
+var unit = Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)-5;
+var virtualBox_height = total_height-navbar_height-1.5*unit;
+
+temp_svg = d3.select("body")
+            .append("svg")
+            .attr("width", "100%")
+            .attr("height", parseInt(virtualBox_height));
+
+
 
 var is_timer_start = false;
 var begin;
@@ -137,8 +148,9 @@ var pre_y = distance;
 var mouse_trace_back = 0;
 var direction = -1; //-1: scroll down, +1: scroll up
 var cum_distance = 0;
+var max_backtracking_distance=0;
 
-function update(round,start_time, mouse_trace_back,insert_symbol_line, FLAG){
+function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backtracking_distance, FLAG){
     if (FLAG==true){
         var end= parseInt(performance.now());
         var timeSpent= (end-start_time) + "ms";
@@ -147,6 +159,7 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, FLAG){
         console.log("Line index: "+ parseInt(insert_symbol_line));
         console.log("Trace back times: "+ (mouse_trace_back));
         console.log("Cumulative Distance: "+ parseInt(cum_distance)+"px");
+        console.log("Max Back Tracking Distance: "+ parseInt(max_backtracking_distance)+"px");
         cum_distance = 0;
     }
 }
@@ -200,7 +213,7 @@ function test() {
             let temp_line_index = insert_symbol_line+1;
             insert_symbol_line = shuffled1.shift();
             add_shapes(insert_symbol_line);
-            update(round,begin,mouse_trace_back, temp_line_index,FLAG);
+            update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             round = round + 1;
             d3.select("#num").text(round);
             
@@ -241,13 +254,13 @@ scrollDistance(function (distance) {
 	cum_distance = cum_distance+ Math.abs(distance);
 });
 
-const options = {
-    apiKey: 'AIzaSyDRjA2WBlCY4yRVSDt_dNwv0GUZLq5CT0o',
-    sheetId: '19LBbYg3K7FgTa2BmErkBX1pkz3d1xmGYOkuX9SvS3-k',
-    sheetNumber: 1,
-    sheetName: 'scrolling-test', // if sheetName is supplied, this will take precedence over sheetNumber
-    returnAllResults: false,
-  }
+// const options = {
+//     apiKey: 'AIzaSyDRjA2WBlCY4yRVSDt_dNwv0GUZLq5CT0o',
+//     sheetId: '19LBbYg3K7FgTa2BmErkBX1pkz3d1xmGYOkuX9SvS3-k',
+//     sheetNumber: 1,
+//     sheetName: 'scrolling-test', // if sheetName is supplied, this will take precedence over sheetNumber
+//     returnAllResults: false,
+//   }
 
 // GSheetReader(
 //     options,

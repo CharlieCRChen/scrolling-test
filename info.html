@@ -10,21 +10,113 @@
     </head>
 
     <body>
-        <div class="home-page">
-            <h1>Scrolling Test</h1>
-            <p>
-                    This website runs a scrolling test, which was developed by <a href="https://chenchaoran1234.wixsite.com/mysite" target="_blank">Chaoran Chen</a> for the CMU HCII class <a href="https://www.cs.cmu.edu/~bam/uicourse/05440inter2022/" target="_blank">05-440/640: Interaction Techniques</a>, Spring, 2022.
-                    <br /><br />
-                    On the next page, please enter the details of the device you are testing.
-                    <br /><br />
-                    Your goal is to land the "XXX" or certain line into the grey area as QUICKLY and as ACCURATELY as possible. For consistency, be sure to interact the same way throughout the test. Please do not to change the orientation of the device or resize the window. 
-                    <br /><br />
-                    At the end of the test, you will be able to download your results in JSON or CSV format, and display them on the screen. Also, they will be copied into the class' Google Sheet for which please remember to sign in using your <strong>ANDREW</strong> account. Use the "Authorize" button at the top to login, or “Sign Out” to log off.
-                    <br />
-            </p>
-            <button type="button" class="btn btn-dark" onclick="javascript:window.location.href='./scrolling-test'">Next</button>
+        <div class="info-page">
+            <h1>Please fill in the following details</h1>
+            <form #infoForm="ngForm" style="padding-bottom: 0;">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input required type="text" name="name" class="form-control" id="username" placeholder="Enter Name">
+                </div>
+                <div class="form-group">
+                    <label for="andrewId">Your Andrew ID</label>
+                    <input required type="email" name="alias" class="form-control" id="andrewId"
+                        placeholder="Enter ANDREW ID">
+                </div>
+                <div class="form-group">
+                    <label for="type">Participant Type</label>
+                    <select required class="form-control"  name="type" id="type">
+                        <option></option>
+                        <option>Yourself</option>
+                        <option>Someone NOT like you</option>
+                        <option>Optional participant</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="scrolling_tech">Scrolling Techniques </label>
+                    <select required class="form-control"  name="experience" id="tech">
+                        <option></option>
+                        <option>Scrollbar by pressing arrow buttons</option>
+                        <option>Scrollbar by dragging thumb</option>
+                        <option>Scrollbar with user choice</option>
+                        <option>Mouse wheel with notches</option>
+                        <option>Mouse wheel without notches</option>
+                        <option>Rate-controlled scrolling</option>
+                        <option>Two-finger on laptop touchpad</option>
+                        <option>Using arrow keyboard keys</option>
+                        <option>Scrolling with PgUp/PgDn keys</option>
+                        <option>Drag scrolling on screen</option>
+                        <option>Flick scorlling on screen</option>
+                        <option>Non-touchscreen scrolling</option>
+                        <option>other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Level of Experience</label>
+                    <select required class="form-control"  name="experience" id="experience">
+                        <option></option>
+                        <option>1=Never used this scrolling technique before today</option>
+                        <option>2=Used a scrolling technique like this in the past, but not in the last year</option>
+                        <option>3=Have used this scrolling technique occasionally in the last year</option>
+                        <option>4=Use this scrolling technique frequently (at least once a week) but not every time</option>
+                        <option>5=This is the main kind of scrolling technique I use (use every day)</option>
+                    </select>
+                </div>
+            </form>
+            <!-- <button style="margin-top: 15px;" class="btn-main" [disabled]="!infoForm.valid" (click)="demo()">Demo Run</button> -->
+            <button style="margin-top: 15px;" class="btn-main" id="btn-info" onclick="javascript:window.location.href='./scrolling-test.html'">Next</button>
+            <link rel="stylesheet" href="./info-styles.css">
         </div>
-        <link rel="stylesheet" href="./styles.css">
+        <style>
+            .info-page {
+                padding: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+            form {
+                    width:100%;
+                    max-width: 500px;
+                    padding: 30px 0;
+                }
+            .form-group {
+                width:100%;
+            }
+            button {
+                padding: 0.5em 1.5em 0.5em 1.5em;
+                background-color: black;
+                color: white;
+                border-radius: 4px;
+            }
+        </style>
+        <script>
+
+            function getValue(){
+                var username = $("#username").value;
+                var id = $("#andrewId").value;
+                var type = $("#type").text;
+                var tech = $("#tech").text;
+                var experience = $("#experience").text;
+                var value = username + ";" + id + ";" + type +";" + tech + ";" + experience
+                console.log(value);
+                setCookie(name,value);
+            }
+
+            function setCookie(name,value)
+            {
+                /*
+                *————— setCookie(name,value) —————–
+                * param: name, string; value, string.
+                * instance: setCookie(‘username’,’Tim’)
+                *————— setCookie(name,value) —————–
+                */
+                var Days = 30; 
+                var exp = new Date();
+                exp.setTime(exp.getTime() + Days*24*60*60*1000);
+                document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+                location.href = "./result.html"; 
+            }
+        </script>
     </body>
 
 </html>
