@@ -1,4 +1,4 @@
-const GSheetReader = require('g-sheets-api');
+// const GSheetReader = require('g-sheets-api');
 
 var svg = d3.select("#svg");
 var g = svg.append("g").classed("group", true);
@@ -249,14 +249,14 @@ const options = {
     returnAllResults: false,
   }
 
-GSheetReader(
-    options,
-    results => {
-      // do something with the results here
-    },
-    error => {
-      // OPTIONAL: handle errors here
-    }
-);
+// GSheetReader(
+//     options,
+//     results => {
+//       // do something with the results here
+//     },
+//     error => {
+//       // OPTIONAL: handle errors here
+//     }
+// );
 
 
