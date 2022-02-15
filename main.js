@@ -1,3 +1,5 @@
+const GSheetReader = require('g-sheets-api');
+
 var svg = d3.select("#svg");
 var g = svg.append("g").classed("group", true);
 
@@ -238,5 +240,23 @@ function scrollDistance (callback, refresh = 66) {
 scrollDistance(function (distance) {
 	cum_distance = cum_distance+ Math.abs(distance);
 });
+
+const options = {
+    apiKey: 'AIzaSyDRjA2WBlCY4yRVSDt_dNwv0GUZLq5CT0o',
+    sheetId: '19LBbYg3K7FgTa2BmErkBX1pkz3d1xmGYOkuX9SvS3-k',
+    sheetNumber: 1,
+    sheetName: 'scrolling-test', // if sheetName is supplied, this will take precedence over sheetNumber
+    returnAllResults: false,
+  }
+
+GSheetReader(
+    options,
+    results => {
+      // do something with the results here
+    },
+    error => {
+      // OPTIONAL: handle errors here
+    }
+);
 
 
