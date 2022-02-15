@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "g-sheets-api": "^2.1.2"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.3"
   }
 }
