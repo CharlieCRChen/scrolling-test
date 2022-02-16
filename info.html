@@ -50,6 +50,12 @@
                         <option>other</option>
                     </select>
                 </div>
+                <div class="form-group" >
+                    <label for="deviceDetails">Device Details</label>
+                    <input required type="email" name="alias" [(ngModel)]="info.deviceDetails" class="form-control" id="deviceDetails"
+                        placeholder="Enter Details">
+                    <small id="emailHelp" class="form-text text-muted">Add some more details for this device type like make, model, size etc.</small>
+                </div>
                 <div class="form-group">
                     <label for="experience">Level of Experience</label>
                     <select required class="form-control"  name="experience" id="experience">
