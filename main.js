@@ -250,7 +250,7 @@ function test() {
             START_FLAG = false;
             d3.select(".group").remove();
             g = svg.append("g").classed("group", true);
-            posY = 70;
+            posY = 5;
             let temp_line_index = insert_symbol_line+1;
             insert_symbol_line = shuffled1.shift();
             add_shapes(insert_symbol_line, show_num=SHOW_NUM, show_star=SHOW_STAR);
