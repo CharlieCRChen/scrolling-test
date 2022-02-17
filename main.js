@@ -301,7 +301,7 @@ function test() {
     
     // console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
     
-    if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
+    if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+20) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
             is_timer_start = false;
             var temp_line_index = insert_symbol_line+1;
