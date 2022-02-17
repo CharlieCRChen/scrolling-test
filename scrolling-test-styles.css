@@ -43,7 +43,7 @@ body{
 
 @media only screen and (hover: none) and (pointer: coarse){
     .navbar-text{
-        font-size: 20pt;
+        font-size: 18pt;
         margin-top: 15pt;
     }
     #btn-start {
