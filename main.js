@@ -176,14 +176,14 @@ var grey_area_size;
 
 d3.select("#grey_area")
     .style("height",function(){
-        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+8) +"px";
+        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15) +"px";
         return grey_area_size
     })
 
 $( window ).resize(function(){
     d3.select("#grey_area")
     .style("height",function(){
-        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+8) +"px";
+        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15) +"px";
         return grey_area_size
     })
 })
@@ -243,7 +243,6 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backt
         data["maxbacktrack"].push(parseInt(max_backtracking_distance)+"px");
 
         cum_distance = 0;
-        //max_backtracking_distance = 0;
     }
 }
 
@@ -279,14 +278,10 @@ $("#svg-container").scroll(function() {
         if ((direction==-1) && (y-pre_y>0)){
             mouse_trace_back = mouse_trace_back + 1;
             direction = 1;
-            // cum_distance =  cum_distance + Math.abs($("#svg-container" ).scrollTop()-init_distance);
-            // init_distance = $("#svg-container" ).scrollTop();
         }
         else if ((direction==1) && (y-pre_y<0)){
             mouse_trace_back = mouse_trace_back + 1;
             direction = -1;
-            // cum_distance =  cum_distance + Math.abs($("#svg-container" ).scrollTop()-init_distance);
-            // init_distance = $("#svg-container" ).scrollTop();
         }
         pre_y = y;
         if(interval == null){
@@ -296,15 +291,6 @@ $("#svg-container").scroll(function() {
     }
 }) 
 
-// $('#svg-container').on('touchmove', function(event) {
-
-//     event.preventDefault(); 
-
-//     var distanceY = window.pageYOffset
-//     if (distanceY > 0) {
-//         console.log("moving")
-//     }
-// });
 
 function test() {  
     //var offset = $(".star").getBoundingClientRect().offset();
