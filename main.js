@@ -230,11 +230,12 @@ var START_FLAG = false;
 $("#btn-start").click(function(){
     $("#grey_mask").hide();
     START_FLAG = true;
+    console.log(START_FLAG);
 })
 
 $("#svg-container").scroll(function() {
-    console.log("scrolling");
     if (START_FLAG==true){
+        console.log("true scrolling");
         if (is_timer_start == false){
             begin= parseInt(performance.now());
             is_timer_start = true;
