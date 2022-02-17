@@ -251,6 +251,7 @@ interval = null;
 var START_FLAG = false;
 
 $("#btn-start").click(function(){
+    $("#svg-container").scrollTop(0);
     $("#grey_mask").hide();
     START_FLAG = true;
     begin= parseInt(performance.now());
@@ -339,7 +340,7 @@ function test() {
             setTimeout(function(){
                 mouse_trace_back = -2;
                 direction = -1;
-                $("#svg-container").scrollTop(0);
+                // $("#svg-container").scrollTop(0);
             }, 100);
             clearInterval(interval);  
             interval = null; 
