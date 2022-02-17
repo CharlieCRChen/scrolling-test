@@ -233,8 +233,8 @@ $("#btn-start").click(function(){
 })
 
 $("#svg-container").scroll(function() {
+    console.log("scrolling");
     if (START_FLAG==true){
-
         if (is_timer_start == false){
             begin= parseInt(performance.now());
             is_timer_start = true;
@@ -261,15 +261,15 @@ $("#svg-container").scroll(function() {
     }
 }) 
 
-$('#svg-container').on('touchmove', function(event) {
+// $('#svg-container').on('touchmove', function(event) {
 
-    event.preventDefault(); 
+//     event.preventDefault(); 
 
-    var distanceY = window.pageYOffset
-    if (distanceY > 0) {
-        console.log("moving")
-    }
-});
+//     var distanceY = window.pageYOffset
+//     if (distanceY > 0) {
+//         console.log("moving")
+//     }
+// });
 
 function test() {  
 
