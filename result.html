@@ -74,7 +74,7 @@
             var data4csv = [{ "User":"User", "AndrewID":"AndrewID", "Participant_Type":"Participant_Type",
                                 "Scrolling_Technique":"Scrolling_Technique", "Detail":"Detail", "Level_of_Experience":"Level_of_Experience",
                                 "Round":"Round", "Time":"Time", "Index_Line": "Index_Line", "Traceback_Time": "Traceback_Time",
-                                "Cummulative_Distance":"Cummulative_Distance", "Max_Back_Track_Distance":"Max_Back_Track_Distance"}]; 
+                                "Cumulative_Distance":"Cumulative_Distance", "Max_Back_Track_Distance":"Max_Back_Track_Distance"}]; 
 
             function refresh_container(){
                 div = $("<div>").addClass("key-value-pair");
@@ -100,16 +100,16 @@
                 maxBacktrack = data["maxbacktrack"][i];
 
                 append_data("Round", round);
-                append_data("Time", time);
+                append_data("Time (ms)", time);
                 append_data("Index Line", index);
-                append_data("Traceback Time", traceback);
-                append_data("Cummulative Distance", cumDis);
-                append_data("Max Back Track Distance", maxBacktrack); 
+                append_data("Num Switchbacks", traceback);
+                append_data("Cumulative Distance (px)", cumDis);
+                append_data("Max Back Track Distance (px)", maxBacktrack); 
 
                 data4csv.push({ "User":info_data["username"], "AndrewID":info_data["id"], "Participant_Type":info_data["type"],
                                 "Scrolling_Technique":info_data["tech"], "Detail":info_data["detail"], "Level_of_Experience":info_data["exp"].split("=")[0],
                                 "Round":round, "Time":time, "Index_Line": index, "Traceback_Time": traceback,
-                                "Cummulative_Distance":cumDis, "Max_Back_Track_Distance":maxBacktrack});
+                                "Cumulative_Distance":cumDis, "Max_Back_Track_Distance":maxBacktrack});
             }
 
             //get avg summary
