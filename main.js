@@ -272,8 +272,12 @@ $("#svg-container").scroll(function() {
 
 function test() {  
     var offset = $(".star").offset();
-    var y = parseInt(offset.top-$( window ).scrollTop());
-    console.log([offset.top, $( window ).scrollTop(), $( "#svg-container" ).scrollTop(), y]);
+    //var y = parseInt(offset.top-$( window ).scrollTop());
+
+    var y = parseInt($(".star").offsetTop()-$( "#svg-container" ).scrollTop())
+    
+    console.log([$(".star").offsetTop(), $( "#svg-container" ).scrollTop(), y]);
+    
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
             var temp_line_index = insert_symbol_line+1;
