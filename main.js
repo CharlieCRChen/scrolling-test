@@ -3,6 +3,19 @@
 // console.log("start");
 
 
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+var mode = getQueryVariable("mode")
+
 // set the square box of the svg container
 var width = window.innerWidth;
 var navbar_height = document.getElementById("nav").clientHeight;
@@ -40,7 +53,16 @@ var round = 1;
 var SHOW_NUM = true;
 var SHOW_STAR = true;
 
-let unshuffled = [9,19,29] //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
+let unshuffled = [9]; //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
+
+if (mode=="demo"){
+    unshuffled = [9];
+}
+
+if (mode=="formal"){
+    unshuffled = [9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98];
+}
+
 let shuffled1 = unshuffled
   .map(value => ({ value, sort: Math.random() }))
   .sort((a, b) => a.sort - b.sort)
@@ -154,14 +176,14 @@ var grey_area_size;
 
 d3.select("#grey_area")
     .style("height",function(){
-        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().width)+5) +"px";
+        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+8) +"px";
         return grey_area_size
     })
 
 $( window ).resize(function(){
     d3.select("#grey_area")
     .style("height",function(){
-        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().width)+5) +"px";
+        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+8) +"px";
         return grey_area_size
     })
 })
@@ -217,11 +239,11 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backt
         data["time"].push(timeSpent);
         data["index"].push(insert_symbol_line);
         data["traceback"].push(mouse_trace_back);
-        data["cumDistance"].push(parseInt(cum_distance));
-        data["maxbacktrack"].push(parseInt(max_backtracking_distance));
+        data["cumDistance"].push(parseInt(cum_distance)+"px");
+        data["maxbacktrack"].push(parseInt(max_backtracking_distance)+"px");
 
         cum_distance = 0;
-        max_backtracking_distance = 0;
+        //max_backtracking_distance = 0;
     }
 }
 
@@ -232,27 +254,39 @@ var START_FLAG = false;
 $("#btn-start").click(function(){
     $("#grey_mask").hide();
     START_FLAG = true;
+    begin= parseInt(performance.now());
+    is_timer_start = true;
+    cum_distance=0;
 })
 
 $("#svg-container").scroll(function() {
     if (START_FLAG==true){
         if (is_timer_start == false){
-            begin= parseInt(performance.now());
-            is_timer_start = true;
-            cum_distance=0;
+            // begin= parseInt(performance.now());
+            // is_timer_start = true;
+            // cum_distance=0;
         }
-        var offset = $(".star").offset();
-        if ((offset.top-$("#svg-container" ).scrollTop()<0) && ($( "#svg-container" ).scrollTop()-offset.top>max_backtracking_distance)){
-            max_backtracking_distance = $( "#svg-container").scrollTop()-offset.top;
+        var offset = document.getElementById("star1").getBoundingClientRect();
+        // console.log([offset.top,$("#svg-container" ).scrollTop()]);
+
+        // if ((offset.top-$("#svg-container" ).scrollTop()<0) && ($( "#svg-container" ).scrollTop()-offset.top>max_backtracking_distance)){
+        //     max_backtracking_distance = $( "#svg-container").scrollTop()-offset.top;
+        // }
+        if (-offset.top>max_backtracking_distance){
+            max_backtracking_distance = -offset.top;
         }
         var y = parseInt(offset.top-$( "#svg-container" ).scrollTop());
         if ((direction==-1) && (y-pre_y>0)){
             mouse_trace_back = mouse_trace_back + 1;
             direction = 1;
+            // cum_distance =  cum_distance + Math.abs($("#svg-container" ).scrollTop()-init_distance);
+            // init_distance = $("#svg-container" ).scrollTop();
         }
         else if ((direction==1) && (y-pre_y<0)){
             mouse_trace_back = mouse_trace_back + 1;
             direction = -1;
+            // cum_distance =  cum_distance + Math.abs($("#svg-container" ).scrollTop()-init_distance);
+            // init_distance = $("#svg-container" ).scrollTop();
         }
         pre_y = y;
         if(interval == null){
@@ -279,10 +313,11 @@ function test() {
     var offset = document.getElementById("star1").getBoundingClientRect();
     var y = offset.top;
     
-    console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
+    // console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
     
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
+            is_timer_start = false;
             var temp_line_index = insert_symbol_line+1;
             update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             data = JSON.stringify(data);
@@ -291,16 +326,16 @@ function test() {
             location.href='./result.html';
         }
         if (shuffled1.length == 0 && SHOW_STAR == true){
+            is_timer_start = false;
             shuffled1 = shuffled2;
             shuffled2 = [];
             SHOW_NUM = true;
             SHOW_STAR = false;
-            var temp_line_index = insert_symbol_line+1;
-            update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             d3.select("#p-1").style("display","none");
             d3.select("#p-2").style("display","block");
         }
         if (shuffled1.length > 0){
+            is_timer_start = false;
             START_FLAG = false;
             d3.select(".group").remove();
             g = svg.append("g").classed("group", true);
@@ -309,6 +344,7 @@ function test() {
             insert_symbol_line = shuffled1.shift();
             add_shapes(insert_symbol_line, show_num=SHOW_NUM, show_star=SHOW_STAR);
             update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
+            max_backtracking_distance = 0;
             round = round + 1;
             d3.select("#num").text(round);
             if (SHOW_STAR == false){
@@ -330,15 +366,15 @@ function test() {
 function scrollDistance (callback, refresh = 66) {
 	if (!callback || typeof callback !== 'function') return;
 	let isScrolling, start, end, distance;
-	$("#svg-container").scroll(function (event) {
+	document.getElementById("svg-container").addEventListener('scroll', function (event) {
 		if (!start) {
-			start = $("#svg-container").pageYOffset;
-            location.href='./result.html'
+			start = $( "#svg-container" ).scrollTop();
 		}
-		$("#svg-container").clearTimeout(isScrolling);
+		window.clearTimeout(isScrolling);
 		isScrolling = setTimeout(function() {
-			end = $("#svg-container").pageYOffset;
+			end = $( "#svg-container" ).scrollTop();
 			distance = end - start;
+            // console.log(distance);
 			callback(distance, start, end);
 			start = null;
 			end = null;

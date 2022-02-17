@@ -69,7 +69,8 @@
                 </div>
             </form>
             <!-- <button style="margin-top: 15px;" class="btn-main" [disabled]="!infoForm.valid" (click)="demo()">Demo Run</button> -->
-            <button style="margin-top: 15px;" class="btn-main" id="btn-info">Next</button>
+            <button style="margin-top: 15px;" class="btn-main" id="btn-demo">Demo Test</button>
+            <button style="margin-top: 15px;" class="btn-main" id="btn-formal">Formal Test</button>
         </div>
         <style>
             .info-page {
@@ -105,10 +106,15 @@
                 var value =  JSON.stringify({"username":username, "id":id, "type":type, "tech":tech, "detail":detail, "exp":experience});
                 sessionStorage.setItem("info", value);
             }
-            $("#btn-info").click(function(){
+            $("#btn-demo").click(function(){
                 getValue();
                 //location.href='./result.html'
-                location.href='./scrolling-test.html'
+                location.href='./scrolling-test.html?mode=demo'
+            })
+            $("#btn-formal").click(function(){
+                getValue();
+                //location.href='./result.html'
+                location.href='./scrolling-test.html?mode=formal'
             })
         </script>
     </body>
