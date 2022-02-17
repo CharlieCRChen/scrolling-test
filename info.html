@@ -70,8 +70,8 @@
                 </div>
             </form>
             <!-- <button style="margin-top: 15px;" class="btn-main" [disabled]="!infoForm.valid" (click)="demo()">Demo Run</button> -->
-            <button style="margin-top: 15px;" class="btn-main" id="btn-demo">Demo Test</button>
-            <button style="margin-top: 15px;" class="btn-main" id="btn-formal">Formal Test</button>
+            <button style="margin-top: 15px;" class="btn-main" disabled id="btn-demo">Demo Test</button>
+            <button style="margin-top: 15px;" class="btn-main" disabled id="btn-formal">Formal Test</button>
         </div>
         <style>
             .info-page {
@@ -91,12 +91,47 @@
             }
             button {
                 padding: 0.5em 1.5em 0.5em 1.5em;
-                background-color: black;
+                background-color: rgb(187, 187, 187);
                 color: white;
                 border-radius: 4px;
             }
         </style>
         <script>
+            var inputArray = [false, false, false, false, false]
+            $("#username").on("input", function () {
+                inputArray[0] = true;
+                enableBtn(inputArray);
+            });
+            $("#andrewId").on("input", function () {
+                inputArray[1] = true;
+                enableBtn(inputArray);
+            });
+            $("#type").on("change", function () {
+                inputArray[2] = true;
+                enableBtn(inputArray);
+            });
+            $("#tech").on("change", function () {
+                inputArray[3] = true;
+                enableBtn(inputArray);
+            });
+            $("#experience").on("change", function () {
+                inputArray[4] = true;
+                enableBtn(inputArray);
+            });
+
+            function enableBtn(array){
+                enable = true;
+                for (var i = 0; i<5; i++){
+                    if (array[i] == false){
+                        enable = false;
+                    }
+                }
+                if (enable==true){
+                    $(".btn-main").css("background-color","black");
+                    $(".btn-main").removeAttr("disabled");
+                }
+            }
+
             function getValue(){
                 var username = $("#username").val();
                 var id = $("#andrewId").val();
@@ -109,12 +144,10 @@
             }
             $("#btn-demo").click(function(){
                 getValue();
-                //location.href='./result.html'
                 location.href='./scrolling-test.html?mode=demo'
             })
             $("#btn-formal").click(function(){
                 getValue();
-                //location.href='./result.html'
                 location.href='./scrolling-test.html?mode=formal'
             })
         </script>
