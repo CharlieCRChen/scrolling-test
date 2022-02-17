@@ -290,15 +290,17 @@ function test() {
             sessionStorage.setItem("scrolling_data", data);
             location.href='./result.html';
         }
-        if (shuffled1.length == 0){
+        if (shuffled1.length == 0 && SHOW_STAR == true){
             shuffled1 = shuffled2;
             shuffled2 = [];
             SHOW_NUM = true;
             SHOW_STAR = false;
+            var temp_line_index = insert_symbol_line+1;
+            update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             d3.select("#p-1").style("display","none");
             d3.select("#p-2").style("display","block");
         }
-        else{
+        if (shuffled1.length > 0){
             START_FLAG = false;
             d3.select(".group").remove();
             g = svg.append("g").classed("group", true);
