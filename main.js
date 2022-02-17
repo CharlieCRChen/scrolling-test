@@ -254,7 +254,6 @@ $("#svg-container").scroll(function() {
         }
         pre_y = y;
         if(interval == null){
-            console.log("interval");
             interval = setInterval("test()", 1000);
         }
         topValue = document.documentElement.scrollTop;  
@@ -272,9 +271,9 @@ $("#svg-container").scroll(function() {
 // });
 
 function test() {  
-    console.log("TEST");
     var offset = $(".star").offset();
     var y = parseInt(offset.top-$( window ).scrollTop());
+    console.log([y, navbar_height]);
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
             var temp_line_index = insert_symbol_line+1;
