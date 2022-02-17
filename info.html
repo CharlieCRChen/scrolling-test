@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group" >
                     <label for="deviceDetails">Device Details</label>
-                    <input required type="email" name="alias" [(ngModel)]="info.deviceDetails" class="form-control" id="deviceDetails"
+                    <input required type="email" name="alias" class="form-control" id="detail"
                         placeholder="Enter Details">
                     <small id="emailHelp" class="form-text text-muted">Add some more details for this device type like make, model, size etc.</small>
                 </div>
@@ -69,8 +69,7 @@
                 </div>
             </form>
             <!-- <button style="margin-top: 15px;" class="btn-main" [disabled]="!infoForm.valid" (click)="demo()">Demo Run</button> -->
-            <button style="margin-top: 15px;" class="btn-main" id="btn-info" onclick="javascript:window.location.href='./scrolling-test.html'">Next</button>
-            <link rel="stylesheet" href="./info-styles.css">
+            <button style="margin-top: 15px;" class="btn-main" id="btn-info">Next</button>
         </div>
         <style>
             .info-page {
@@ -96,32 +95,21 @@
             }
         </style>
         <script>
-
             function getValue(){
-                var username = $("#username").value;
-                var id = $("#andrewId").value;
-                var type = $("#type").text;
-                var tech = $("#tech").text;
-                var experience = $("#experience").text;
-                var value = username + ";" + id + ";" + type +";" + tech + ";" + experience
-                console.log(value);
-                setCookie(name,value);
+                var username = $("#username").val();
+                var id = $("#andrewId").val();
+                var type = $("#type").val();
+                var tech = $("#tech").val();
+                var detail = $("#detail").val();
+                var experience = $("#experience").val();
+                var value =  JSON.stringify({"username":username, "id":id, "type":type, "tech":tech, "detail":detail, "exp":experience});
+                sessionStorage.setItem("info", value);
             }
-
-            function setCookie(name,value)
-            {
-                /*
-                *————— setCookie(name,value) —————–
-                * param: name, string; value, string.
-                * instance: setCookie(‘username’,’Tim’)
-                *————— setCookie(name,value) —————–
-                */
-                var Days = 30; 
-                var exp = new Date();
-                exp.setTime(exp.getTime() + Days*24*60*60*1000);
-                document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-                location.href = "./result.html"; 
-            }
+            $("#btn-info").click(function(){
+                getValue();
+                //location.href='./result.html'
+                location.href='./scrolling-test.html'
+            })
         </script>
     </body>
 

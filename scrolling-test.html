@@ -17,8 +17,11 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xs-10">
-                            <p class="navbar-text" style="color:white">
-                                Scrolling test: <strong id="num">1</strong> | Scroll up to land the stars in the grey area.
+                            <p class="navbar-text" id="p-1" style="color:white; display: block;" >
+                                Scrolling test: <strong class="num">1</strong> | Scroll up to land the stars in the grey area.
+                            </p>
+                            <p class="navbar-text" id="p-2" style="color:white; display: none;" >
+                                Scrolling test: <strong class="num">1</strong> | Scroll up to land <strong style="color:rgb(255, 180, 42);">LINE</strong> <strong id="line_num" style="color:rgb(255, 180, 42);">10</strong> in the grey area.
                             </p>
                         </div>
                         <div class="col-xs-1">
@@ -30,7 +33,7 @@
         </div>
 
         <div id="grey_mask"></div>
-        <div id="grey_area"></div>
+        <div id="grey_area" style="pointer-events: none; touch-action: none;"></div>
 
         <!-- svg shapes -->
         <div id="svg-container" style="overflow-y:auto;">

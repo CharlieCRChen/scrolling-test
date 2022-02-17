@@ -1,5 +1,6 @@
 body{
     margin:0;
+    background-color: rgb(131, 131, 131);
 }
 
 #grey_mask{
@@ -28,3 +29,10 @@ body{
     -ms-user-select: none;
     user-select: none;
 }
+
+@media only screen and (max-width: 768px) {
+    .navbar-text{
+        font-size: 10pt;
+    }
+}
+

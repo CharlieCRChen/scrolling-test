@@ -1,5 +1,7 @@
 // const GSheetReader = require('g-sheets-api');
 
+
+
 // set the square box of the svg container
 var width = window.innerWidth;
 var navbar_height = document.getElementById("nav").clientHeight;
@@ -11,9 +13,14 @@ d3.select("#svg-container")
     .style("margin-top", (navbar_height)+"px")
     .style("margin-left", "auto")
     .style("margin-right", "auto")
+    .style("margin-bottom", "auto")
 
 
 var svg = d3.select("#svg");
+svg.append("rect")
+.attr("width", "100%")
+.attr("height", "100%")
+.attr("fill", "white");
 var g = svg.append("g").classed("group", true);
 
 
@@ -32,8 +39,7 @@ var round = 1;
 var SHOW_NUM = true;
 var SHOW_STAR = true;
 
-let unshuffled = [10,20,30,40,50,60,70,80,90,99,10,20,30,40,50,60,70,80,90,99]; //10 - 99; 20 numbers in total
-
+let unshuffled = [9,19,29] //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
 let shuffled1 = unshuffled
   .map(value => ({ value, sort: Math.random() }))
   .sort((a, b) => a.sort - b.sort)
@@ -68,7 +74,6 @@ function add_text(i, posY){
 function add_shapes(insert_symbol_line, show_num=true, show_star=true){
     for (let i =0; i<99; i++){
         if (i == insert_symbol_line && show_star==false){
-            //posY = posY + 50;
             var star = d3.symbol()
                 .type(d3.symbolStar)
                 .size(3000);
@@ -86,7 +91,6 @@ function add_shapes(insert_symbol_line, show_num=true, show_star=true){
             }
         }
         if (i == insert_symbol_line && show_star==true){
-            //posY = posY + 50;
             var star = d3.symbol()
                 .type(d3.symbolStar)
                 .size(3000);
@@ -99,7 +103,6 @@ function add_shapes(insert_symbol_line, show_num=true, show_star=true){
             if (show_num==true){
                 add_text(i, posY);
             }
-            //posY = posY + 50;
         }
         else{
             choice = getRandomInt(3);
@@ -163,12 +166,17 @@ $( window ).resize(function(){
 // add white space at the end of the svg
 var total_height = window.innerHeight;
 var unit = Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().width)+5;
-var virtualBox_height = side_len-2*unit;
+var virtualBox_height = side_len-2*unit+5;
 
 temp_svg = d3.select("#svg-container")
             .append("svg")
             .attr("width", "100%")
-            .attr("height", parseInt(virtualBox_height));
+            .attr("height", parseInt(virtualBox_height))
+            .style("margin-top","-5px");
+temp_svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "white");
 
 
 
@@ -183,16 +191,32 @@ var direction = -1; //-1: scroll down, +1: scroll up
 var cum_distance = 0;
 var max_backtracking_distance=0;
 
+
+var data = { "round":[],
+                "time":[],
+                "index":[],
+                "traceback":[],
+                "cumDistance":[],
+                "maxbacktrack":[]}
+
 function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backtracking_distance, FLAG){
     if (FLAG==true){
         var end= parseInt(performance.now());
         var timeSpent= (end-start_time) + "ms";
         console.log("Round: "+ round);
         console.log("Time: "+ timeSpent);
-        console.log("Line index: "+ parseInt(insert_symbol_line));
+        console.log("Line index: "+ insert_symbol_line);
         console.log("Trace back times: "+ (mouse_trace_back));
         console.log("Cumulative Distance: "+ parseInt(cum_distance)+"px");
         console.log("Max Back Tracking Distance: "+ parseInt(max_backtracking_distance)+"px");
+
+        data["round"].push(round);
+        data["time"].push(timeSpent);
+        data["index"].push(insert_symbol_line);
+        data["traceback"].push(mouse_trace_back);
+        data["cumDistance"].push(parseInt(cum_distance));
+        data["maxbacktrack"].push(parseInt(max_backtracking_distance));
+
         cum_distance = 0;
         max_backtracking_distance = 0;
     }
@@ -238,31 +262,42 @@ $("#svg-container").scroll(function() {
 function test() {  
     var offset = $(".star").offset();
     var y = parseInt(offset.top-$( window ).scrollTop());
-    if(document.documentElement.scrollTop == topValue && y>45 && y<105) {
+    if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
+        if (shuffled1.length == 0 && SHOW_STAR == false){
+            var temp_line_index = insert_symbol_line+1;
+            update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
+            data = JSON.stringify(data);
+            console.log(data);
+            sessionStorage.setItem("scrolling_data", data);
+            location.href='./result.html';
+        }
         if (shuffled1.length == 0){
-            //alert("Test is over.")
             shuffled1 = shuffled2;
             shuffled2 = [];
             SHOW_NUM = true;
             SHOW_STAR = false;
+            d3.select("#p-1").style("display","none");
+            d3.select("#p-2").style("display","block");
         }
         else{
             START_FLAG = false;
             d3.select(".group").remove();
             g = svg.append("g").classed("group", true);
             posY = 5;
-            let temp_line_index = insert_symbol_line+1;
+            var temp_line_index = insert_symbol_line+1;
             insert_symbol_line = shuffled1.shift();
             add_shapes(insert_symbol_line, show_num=SHOW_NUM, show_star=SHOW_STAR);
             update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             round = round + 1;
             d3.select("#num").text(round);
-            
+            if (SHOW_STAR == false){
+                d3.select("#line_num").text(insert_symbol_line+1);
+            }
             setTimeout(function(){
                 mouse_trace_back = -2;
                 direction = -1;
                 $("#svg-container").scrollTop(0);
-            }, 500);
+            }, 100);
             clearInterval(interval);  
             interval = null; 
             $("#grey_mask").show(); 
@@ -277,6 +312,7 @@ function scrollDistance (callback, refresh = 66) {
 	$("#svg-container").scroll(function (event) {
 		if (!start) {
 			start = $("#svg-container").pageYOffset;
+            location.href='./result.html'
 		}
 		$("#svg-container").clearTimeout(isScrolling);
 		isScrolling = setTimeout(function() {

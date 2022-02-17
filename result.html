@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Scrolling Test</title>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <!-- <script src="https://d3js.org/d3.v7.min.js"></script> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -11,17 +11,199 @@
     </head>
 
     <body>
-        <script language=”javascript” >
-            function getCookie(name)
-            {
-                /*
-                *————— getCookie(name) —————–
-                * param:name, string.
-                *————— getCookie(name) —————–
-                */
-                var arr = document.cookie;
-                console.log(arr);
+        <div class="results-area">
+            <h1>Results</h1>
+            <div class="result">
+                <label class="title">User Information</label>
+                <div class="pair-wrapper">
+                    <div class="key-value-pair">
+                        <label class="key">Name</label>
+                        <label class="value" id="name_val"></label>
+                    </div>
+                    <div class="key-value-pair">
+                        <label class="key">Andrew ID</label>
+                        <label class="value" id="id_val"></label>
+                    </div>
+                    <div class="key-value-pair">
+                        <label class="key">Participant Type</label>
+                        <label class="value" id="type_val"></label>
+                    </div>
+                    <div class="key-value-pair">
+                        <label class="key">Scrolling Techniques</label>
+                        <label class="value" id="tech_val"></label>
+                    </div>
+                    <div class="key-value-pair">
+                        <label class="key">Device Details</label>
+                        <label class="value" id="detail_val"></label>
+                    </div>
+                    <div class="key-value-pair">
+                        <label class="key">Level of Experience</label>
+                        <label class="value" id="exp_val"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="result">
+                <label class="title">Download Data</label>
+                <div class="pair-wrapper">
+                    <button class="btn-main" id="toJSON" style="margin-top: 15px; margin-right: 15px;"> Download JSON Data</button>
+                    <button class="btn-main" id="toCSV" style="margin-top: 15px; margin-right: 15px;"> Download CSV Data</button>
+                </div>
+            </div>
+            <div class="result">
+                <label class="title">All Data</label>
+                <div id="show_data" class="pair-wrapper"></div>
+            </div>
+        </div>
+        <script>
+            var info_data = JSON.parse(sessionStorage.getItem("info"))
+            console.log(info_data);
+            $("#name_val").text(info_data["username"]);
+            $("#id_val").text(info_data["id"]);
+            $("#type_val").text(info_data["type"]);
+            $("#tech_val").text(info_data["tech"]);
+            $("#detail_val").text(info_data["detail"]);
+            $("#exp_val").text(info_data["exp"]);
+
+            var data = JSON.parse(sessionStorage.getItem("scrolling_data"))
+            console.log(data);
+            //init container
+            var div = $("<div>").addClass("key-value-pair");
+            var label_key = $("<label>").addClass("key");
+            var label_value = $("<label>").addClass("value"); 
+            var round,time,index,traceback,cumDis,maxBacktrack;  
+
+            function refresh_container(){
+                div = $("<div>").addClass("key-value-pair");
+                label_key = $("<label>").addClass("key");
+                label_value = $("<label>").addClass("value"); 
             }
+
+            function append_data(key, value){
+                label_key.text(key);
+                label_value.text(value);
+                label_key.appendTo(div);
+                label_value.appendTo(div);
+                $("#show_data").append(div);
+                refresh_container();
+            }
+            
+            for (var i=0; i<data["round"].length;i++){
+                round = data["round"][i];
+                time = data["time"][i];
+                index = data["index"][i];
+                traceback = data["traceback"][i];
+                cumDis = data["cumDistance"][i];
+                maxBacktrack = data["maxbacktrack"][i];
+
+                append_data("Round", round);
+                append_data("Time", time);
+                append_data("Index Line", index);
+                append_data("Traceback Time", traceback);
+                append_data("Cummulative Distance", cumDis);
+                append_data("Max Back Track Distance", maxBacktrack); 
+            }
+
+            //get avg summary
+            // const average = (array) => array.reduce((a, b) => a + b) / array.length;
+            // console.log(average([1,2,3,4,5]));
+
+            //download JSON file
+            const jsonData = {
+                info_data, 
+                data
+            };
+
+            function download(content, fileName, contentType) {
+            const a = document.createElement("a");
+            const file = new Blob([content], { type: contentType });
+                a.href = URL.createObjectURL(file);
+                a.download = fileName;
+                a.click();
+            }
+
+            $("#toJSON").click(function(){
+                download(JSON.stringify(jsonData), "scrolling-test-json-data.json", "text/plain");
+            });
+
+            //download CSV file
+            $("#toCSV").click(function(){
+            });
         </script>
+        <style>
+            h1 {
+                margin-bottom: 30px;
+            }
+            .results-area {
+                margin-top: 60px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            .title {
+                width: 100%;
+                text-align: left;
+                font-size: medium;
+                font-weight: bold;
+                color: #333;
+                padding: 0 15px;
+            }
+
+            .result {
+            width: 100%;
+            border-top: 1px solid rgba(0,0,0,0.10);
+            padding: 30px 30px 15px 30px;
+            }
+            .pair-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-flow: row wrap;
+            }
+            .key-value-pair {
+                padding: 15px 15px 5px 15px;
+                min-width: 16%;
+                flex: 1;
+                display: flex;
+                flex-flow: column;
+            }
+            .key {
+                    font-weight: bold;
+                    font-size: small;
+                    margin: 0;
+                    color: #707070
+            }
+            .value {
+                font-weight: 300;
+                font-size: large;
+                margin: 0;
+            }
+
+            button {
+                padding: 0.5em 1.5em 0.5em 1.5em;
+                background-color: black;
+                color: white;
+                border-radius: 4px;
+                margin-left: 15px;
+            }
+
+            @media only screen and (max-width: 768px) {
+                label.title {
+                    padding: 0 5px;
+                    margin: 10px 0;
+                }
+                .result {
+                    padding: 15px 15px 15px 15px;
+                }
+                .key-value-pair {
+                    padding: 10px 5px 5px 5px;
+                    min-width: 50%;
+                }
+                button{
+                    margin-left: 5px;
+                }
+            }
+        </style>
     </body>
 </html>
