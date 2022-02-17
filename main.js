@@ -271,12 +271,12 @@ $("#svg-container").scroll(function() {
 // });
 
 function test() {  
-    var offset = $(".star").offset();
+    var offset = $(".star").getBoundingClientRect().offset();
     //var y = parseInt(offset.top-$( window ).scrollTop());
 
     var y = parseInt(offset.top-$( "#svg-container" ).scrollTop())
     
-    console.log([offset, $( "#svg-container" ).scrollTop(), y]);
+    console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
     
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
