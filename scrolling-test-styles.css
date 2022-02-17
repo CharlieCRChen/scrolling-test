@@ -44,11 +44,11 @@ body{
 @media only screen and (hover: none) and (pointer: coarse){
     .navbar-text{
         font-size: 20pt;
-        margin-top: auto;
+        margin-top: 15pt;
     }
     #btn-start {
         font-size: 20pt;
-        margin-top:15pt;
+        margin-top:10pt;
         margin-left:-25pt;
     }
     
