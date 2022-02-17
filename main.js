@@ -230,12 +230,10 @@ var START_FLAG = false;
 $("#btn-start").click(function(){
     $("#grey_mask").hide();
     START_FLAG = true;
-    console.log(START_FLAG);
 })
 
 $("#svg-container").scroll(function() {
     if (START_FLAG==true){
-        console.log("true scrolling");
         if (is_timer_start == false){
             begin= parseInt(performance.now());
             is_timer_start = true;
@@ -256,6 +254,7 @@ $("#svg-container").scroll(function() {
         }
         pre_y = y;
         if(interval == null){
+            console.log("interval");
             interval = setInterval("test()", 1000);
         }
         topValue = document.documentElement.scrollTop;  
@@ -273,7 +272,7 @@ $("#svg-container").scroll(function() {
 // });
 
 function test() {  
-
+    console.log("TEST");
     var offset = $(".star").offset();
     var y = parseInt(offset.top-$( window ).scrollTop());
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
