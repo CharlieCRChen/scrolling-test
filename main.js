@@ -1,6 +1,6 @@
 // const GSheetReader = require('g-sheets-api');
-var vConsole = new window.VConsole();
-console.log("start");
+// var vConsole = new window.VConsole();
+// console.log("start");
 
 
 // set the square box of the svg container
@@ -277,9 +277,6 @@ function test() {
     //var y = parseInt(offset.top-$( window ).scrollTop());
 
     var offset = document.getElementById("star1").getBoundingClientRect();
-    //console.log(offset);
-
-    //var y = parseInt(offset.top-$( "#svg-container" ).scrollTop())
     var y = offset.top;
     
     console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
