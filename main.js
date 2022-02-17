@@ -100,6 +100,7 @@ function add_shapes(insert_symbol_line, show_num=true, show_star=true){
                 g.append("path")
                 .attr("d", star)
                 .classed("star", true)
+                .attr("id", function(){return "star"+(j)})
                 .attr("transform", function(d) { return "translate(" + posX_star[j] + "," + (posY+55) + ")"; })
             }
             if (show_num==true){
@@ -275,9 +276,11 @@ function test() {
     //var offset = $(".star").getBoundingClientRect().offset();
     //var y = parseInt(offset.top-$( window ).scrollTop());
 
-    var offset = document.getElementById("star1").getBoundingClientRect().offset();
+    var offset = document.getElementById("star1").getBoundingClientRect();
+    //console.log(offset);
 
-    var y = parseInt(offset.top-$( "#svg-container" ).scrollTop())
+    //var y = parseInt(offset.top-$( "#svg-container" ).scrollTop())
+    var y = offset.top;
     
     console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
     
