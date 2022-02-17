@@ -53,11 +53,11 @@ var round = 1;
 var SHOW_NUM = true;
 var SHOW_STAR = true;
 
-let unshuffled = [9]; //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
+let unshuffled = [10]; //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
 
-if (mode=="demo"){
-    unshuffled = [9];
-}
+// if (mode=="demo"){
+//     unshuffled = [10];
+// }
 
 if (mode=="formal"){
     unshuffled = [10,19,29,39,49,59,69,79,89,98,10,19,29,39,49,59,69,79,89,98];
@@ -333,15 +333,17 @@ function test() {
             update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             max_backtracking_distance = 0;
             round = round + 1;
-            d3.select("#num").text(round);
+            d3.selectAll(".num").text(round);
             if (SHOW_STAR == false){
                 d3.select("#line_num").text(insert_symbol_line+1);
             }
-            setTimeout(function(){
-                mouse_trace_back = -2;
-                direction = -1;
-                // $("#svg-container").scrollTop(0);
-            }, 100);
+            mouse_trace_back = -2;
+            direction = -1;
+            $("#svg-container").scrollTop(0);
+            
+            // setTimeout(function(){
+            //     // $("#svg-container").scrollTop(0);
+            // }, 100);
             clearInterval(interval);  
             interval = null; 
             $("#grey_mask").show(); 
