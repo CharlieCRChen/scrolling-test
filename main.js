@@ -1,5 +1,6 @@
 // const GSheetReader = require('g-sheets-api');
 var vConsole = new window.VConsole();
+console.log("start");
 
 
 // set the square box of the svg container
