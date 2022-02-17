@@ -234,6 +234,7 @@ $("#btn-start").click(function(){
 
 $("#svg-container").scroll(function() {
     if (START_FLAG==true){
+
         if (is_timer_start == false){
             begin= parseInt(performance.now());
             is_timer_start = true;
@@ -260,7 +261,18 @@ $("#svg-container").scroll(function() {
     }
 }) 
 
+$('#svg-container').on('touchmove', function(event) {
+
+    event.preventDefault(); 
+
+    var distanceY = window.pageYOffset
+    if (distanceY > 0) {
+        console.log("moving")
+    }
+});
+
 function test() {  
+
     var offset = $(".star").offset();
     var y = parseInt(offset.top-$( window ).scrollTop());
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+10) {
