@@ -82,6 +82,7 @@ function add_shapes(insert_symbol_line, show_num=true, show_star=true){
                 g.append("path")
                 .attr("d", star)
                 .classed("star", true)
+                .attr("id", function(){return "star"+(j)})
                 .attr("transform", function(d) { return "translate(" + posX_star[j] + "," + (posY+55) + ")"; })
             }
             if (show_num==true){
@@ -271,8 +272,10 @@ $("#svg-container").scroll(function() {
 // });
 
 function test() {  
-    var offset = $(".star").getBoundingClientRect().offset();
+    //var offset = $(".star").getBoundingClientRect().offset();
     //var y = parseInt(offset.top-$( window ).scrollTop());
+
+    var offset = document.getElementById("star1").getBoundingClientRect().offset();
 
     var y = parseInt(offset.top-$( "#svg-container" ).scrollTop())
     
