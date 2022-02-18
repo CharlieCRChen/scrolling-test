@@ -181,6 +181,17 @@
                 data4csv.push(data4json[j]);
             }
 
+            //save to google sheet
+            const scriptURL = "https://script.google.com/macros/s/AKfycbxLqmh0rxEczUZmzMY0R2d6OjBANn5Jegm3BTsBjt-lKBeJCiJtIut2b20hXbkFCaYXyg/exec"
+            fetch(scriptURL, {
+                method: 'post',
+                body: JSON.stringify(data4csv)
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                ChromeSamples.log('Created Gist:', data.html_url);
+            });
+
             //download JSON file
             jsonData = {"all_data":data4json, "summary_data": summary_data};
             function download(content, fileName, contentType) {
