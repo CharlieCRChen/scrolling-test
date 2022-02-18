@@ -13,7 +13,6 @@ function getQueryVariable(variable)
        }
        return(false);
 }
-
 var mode = getQueryVariable("mode")
 
 // set the square box of the svg container
@@ -227,20 +226,20 @@ var data = { "round":[],
 function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backtracking_distance, FLAG){
     if (FLAG==true){
         var end= parseInt(performance.now());
-        var timeSpent= (end-start_time) + "ms";
+        var timeSpent= end-start_time;
         console.log("Round: "+ round);
         console.log("Time: "+ timeSpent);
         console.log("Line index: "+ insert_symbol_line);
-        console.log("Trace back times: "+ (mouse_trace_back));
-        console.log("Cumulative Distance: "+ parseInt(cum_distance)+"px");
-        console.log("Max Back Tracking Distance: "+ parseInt(max_backtracking_distance)+"px");
+        console.log("Trace back times: "+ parseInt(mouse_trace_back));
+        console.log("Cumulative Distance: "+ parseInt(cum_distance));
+        console.log("Max Back Tracking Distance: "+ parseInt(max_backtracking_distance));
 
-        data["round"].push(round);
-        data["time"].push(timeSpent);
-        data["index"].push(insert_symbol_line);
-        data["traceback"].push(mouse_trace_back);
-        data["cumDistance"].push(parseInt(cum_distance)+"px");
-        data["maxbacktrack"].push(parseInt(max_backtracking_distance)+"px");
+        data["round"].push(parseInt(round));
+        data["time"].push(parseInt(timeSpent));
+        data["index"].push(parseInt(insert_symbol_line));
+        data["traceback"].push(parseInt(mouse_trace_back));
+        data["cumDistance"].push(parseInt(cum_distance));
+        data["maxbacktrack"].push(parseInt(max_backtracking_distance));
 
         cum_distance = 0;
     }
@@ -261,17 +260,7 @@ $("#btn-start").click(function(){
 
 $("#svg-container").scroll(function() {
     if (START_FLAG==true){
-        if (is_timer_start == false){
-            // begin= parseInt(performance.now());
-            // is_timer_start = true;
-            // cum_distance=0;
-        }
         var offset = document.getElementById("star1").getBoundingClientRect();
-        // console.log([offset.top,$("#svg-container" ).scrollTop()]);
-
-        // if ((offset.top-$("#svg-container" ).scrollTop()<0) && ($( "#svg-container" ).scrollTop()-offset.top>max_backtracking_distance)){
-        //     max_backtracking_distance = $( "#svg-container").scrollTop()-offset.top;
-        // }
         if (-offset.top>max_backtracking_distance){
             max_backtracking_distance = -offset.top;
         }
@@ -294,14 +283,8 @@ $("#svg-container").scroll(function() {
 
 
 function test() {  
-    //var offset = $(".star").getBoundingClientRect().offset();
-    //var y = parseInt(offset.top-$( window ).scrollTop());
-
     var offset = document.getElementById("star1").getBoundingClientRect();
     var y = offset.top;
-    
-    // console.log([offset.top, $( "#svg-container" ).scrollTop(), y]);
-    
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+20) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
             is_timer_start = false;
@@ -320,6 +303,8 @@ function test() {
             SHOW_STAR = false;
             d3.select("#p-1").style("display","none");
             d3.select("#p-2").style("display","block");
+            alert("Now you will be told what line to scroll to, and there won't be any stars on that line.");
+            round = 0;
         }
         if (shuffled1.length > 0){
             is_timer_start = false;
@@ -340,13 +325,9 @@ function test() {
             mouse_trace_back = -2;
             direction = -1;
             $("#svg-container").scrollTop(0);
-            
-            // setTimeout(function(){
-            //     // $("#svg-container").scrollTop(0);
-            // }, 100);
+            $("#grey_mask").show(); 
             clearInterval(interval);  
             interval = null; 
-            $("#grey_mask").show(); 
         }
     }  
 }

@@ -97,7 +97,21 @@
             }
         </style>
         <script>
-            var inputArray = [false, false, false, false, false]
+            var inputArray = [false, false, false, false, false];
+
+            $(document).ready(function(){
+                console.log($("#username").val());
+                console.log($("#andrewId").val());
+                console.log($("#type").val());
+                console.log($("#tech").val());
+                console.log($("#experience").val());
+                if ($("#username").val() != "" && $("#andrewId").val() != "" && $("#type").val() != "" && 
+                    $("#tech").val() != "" && $("#experience").val() != ""){
+                    inputArray = [true, true, true, true, true];
+                    enableBtn(inputArray);
+                };
+            });
+
             $("#username").on("input", function () {
                 inputArray[0] = true;
                 enableBtn(inputArray);
