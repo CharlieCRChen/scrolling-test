@@ -104,7 +104,7 @@
             var div = $("<div>").addClass("key-value-pair");
             var label_key = $("<label>").addClass("key");
             var label_value = $("<label>").addClass("value"); 
-            var round,time,index,traceback,cumDis,maxBacktrack; 
+            var round,time,target,traceback,cumDis,maxBacktrack; 
             var total_time_1 = 0;
             var total_num_switchback_1 = 0;
             var total_cum_dis_1 = 0;
@@ -115,8 +115,8 @@
            
             //set csv header
             var data4csv = [{ "User":"User", "AndrewID":"AndrewID", "Participant_Type":"Participant Type",
-                                "Scrolling_Technique":"Scrolling Technique", "Detail":"Detail", "Level_of_Experience":"Level of Experience",
-                                "Round":"Round", "Time_(ms)":"Time (ms)", "Index_Line": "Index Line", "Num_Switchbacks": "Num Switchbacks",
+                                "Scrolling_Technique":"Scrolling Technique", "Detail":"Detail", "Level_of_Experience":"Level of Experience", "Mode":"Mode",
+                                "Round":"Round", "Time_(ms)":"Time (ms)", "Target_Line": "Target Line", "Num_Switchbacks": "Num Switchbacks",
                                 "Cumulative_Distance_(px)":"Cumulative Distance (px)", "Max_Back_Track_Distance":"Max Back Track Distance (px)"}]; 
 
             function refresh_container(){
@@ -137,14 +137,14 @@
             for (var i=0; i<data["round"].length;i++){
                 round = data["round"][i];
                 time = data["time"][i];
-                index = data["index"][i];
+                target = data["target"][i];
                 traceback = data["traceback"][i];
                 cumDis = data["cumDistance"][i];
                 maxBacktrack = data["maxbacktrack"][i];
 
                 append_data("Round", round);
                 append_data("Time (ms)", time);
-                append_data("Index Line", index);
+                append_data("Target Line", target);
                 append_data("Num Switchbacks", traceback);
                 append_data("Cumulative Distance (px)", cumDis);
                 append_data("Max Back Track Distance (px)", maxBacktrack); 
@@ -161,8 +161,8 @@
                 }
 
                 data4json.push({ "User":info_data["username"], "AndrewID":info_data["id"], "Participant_Type":info_data["type"],
-                                "Scrolling_Technique":info_data["tech"], "Detail":info_data["detail"], "Level_of_Experience":info_data["exp"].split("=")[0],
-                                "Round":round, "Time_(ms)":time, "Index_Line": index, "Num_Switchbacks": traceback,
+                                "Scrolling_Technique":info_data["tech"], "Detail":info_data["detail"], "Level_of_Experience":info_data["exp"].split("=")[0], "Mode":info_data["mode"],
+                                "Round":round, "Time_(ms)":time, "Target_Line": target, "Num_Switchbacks": traceback,
                                 "Cumulative_Distance_(px)":cumDis, "Max_Back_Track_Distance_(px)":maxBacktrack});
             }
 
@@ -182,8 +182,8 @@
             }
 
             //save to google sheet
-            const scriptURL = "https://script.google.com/macros/s/AKfycbzE86QYzBhul2LJa3RSFPB__PSZnxCESxJiN_wyIzDrQeLgE8pIx8fwz88HdjMUrucBPw/exec?action=addData"
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data4json)})
+            const scriptURL = "https://script.google.com/macros/s/AKfycbw3wc84ewNvfTykRX4rGr0TGkliG-zNH5JCrw4Jw7Cr8yhntuZ7YzzCvtG6SkeDEp8Qew/exec?action=addData"
+            fetch(scriptURL, { method: 'POST',  body: JSON.stringify(data4json)})
 
             //download JSON file
             jsonData = {"all_data":data4json, "summary_data": summary_data};

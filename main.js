@@ -14,6 +14,15 @@ function getQueryVariable(variable)
        return(false);
 }
 var mode = getQueryVariable("mode")
+var info_data = JSON.parse(sessionStorage.getItem("info"))
+if (mode == "demo"){
+    info_data["mode"] = "demo mode";
+}
+if (mode == "formal"){
+    info_data["mode"] = "formal mode";
+}
+sessionStorage.setItem("info", JSON.stringify(info_data));
+
 
 // set the square box of the svg container
 var width = window.innerWidth;
@@ -53,10 +62,6 @@ var SHOW_NUM = true;
 var SHOW_STAR = true;
 
 let unshuffled = [10]; //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
-
-// if (mode=="demo"){
-//     unshuffled = [10];
-// }
 
 if (mode=="formal"){
     unshuffled = [10,19,29,39,49,59,69,79,89,98,10,19,29,39,49,59,69,79,89,98];
@@ -218,7 +223,7 @@ var max_backtracking_distance=0;
 
 var data = { "round":[],
                 "time":[],
-                "index":[],
+                "target":[],
                 "traceback":[],
                 "cumDistance":[],
                 "maxbacktrack":[]}
@@ -237,7 +242,7 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backt
 
         data["round"].push(parseInt(round+1));
         data["time"].push(parseInt(timeSpent));
-        data["index"].push(parseInt(insert_symbol_line));
+        data["target"].push(parseInt(insert_symbol_line));
         data["traceback"].push(parseInt(mouse_trace_back));
         data["cumDistance"].push(parseInt(cum_distance));
         data["maxbacktrack"].push(parseInt(max_backtracking_distance));
