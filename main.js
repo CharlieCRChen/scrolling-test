@@ -210,7 +210,7 @@ var distance;
 distance = parseInt($(".star").offset().top-$( window ).scrollTop())
 var FLAG = true
 var pre_y = distance;
-var mouse_trace_back = 0;
+var mouse_trace_back = -2;
 var direction = -1; //-1: scroll down, +1: scroll up
 var cum_distance = 0;
 var max_backtracking_distance=0;
@@ -227,6 +227,7 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backt
     if (FLAG==true){
         var end= parseInt(performance.now());
         var timeSpent= end-start_time;
+        mouse_trace_back = Math.max(0,mouse_trace_back);
         console.log("Round: "+ round);
         console.log("Time: "+ timeSpent);
         console.log("Line index: "+ insert_symbol_line);
