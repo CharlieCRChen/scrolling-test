@@ -228,14 +228,14 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backt
         var end= parseInt(performance.now());
         var timeSpent= end-start_time;
         mouse_trace_back = Math.max(0,mouse_trace_back);
-        console.log("Round: "+ round);
+        console.log("Round: "+ (round+1));
         console.log("Time: "+ timeSpent);
         console.log("Line index: "+ insert_symbol_line);
         console.log("Trace back times: "+ parseInt(mouse_trace_back));
         console.log("Cumulative Distance: "+ parseInt(cum_distance));
         console.log("Max Back Tracking Distance: "+ parseInt(max_backtracking_distance));
 
-        data["round"].push(parseInt(round));
+        data["round"].push(parseInt(round+1));
         data["time"].push(parseInt(timeSpent));
         data["index"].push(parseInt(insert_symbol_line));
         data["traceback"].push(parseInt(mouse_trace_back));
