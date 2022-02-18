@@ -19,3 +19,18 @@ button {
     color: white;
     border-radius: 4px;
 }
+
+@media only screen and (hover: none) and (pointer: coarse){
+    body{
+        font-size: 20pt;
+    }
+    button {
+        font-size: 2em;
+    }
+    h1 {
+        font-size: 3em;
+    }
+    p {
+        font-size: 2em;
+    }
+}
