@@ -187,9 +187,9 @@
                 method: 'post',
                 body: JSON.stringify(data4csv)
             }).then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                ChromeSamples.log('Created Gist:', data.html_url);
+                console.log("SUCCESS",response)
+            }).catch(function(error) {
+                console.log("ERROR",error.message)
             });
 
             //download JSON file
