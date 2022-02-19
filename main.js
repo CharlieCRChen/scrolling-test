@@ -57,11 +57,11 @@ posX_circle = ["20%", "50%", "80%"];
 posX_triangle = [200, 500, 800];
 posX_star = [200, 500, 800];
 colorList = ["#df7d44","#db4677","#5db9e9"];
-var round = 1;
+var round = 0;
 var SHOW_NUM = true;
 var SHOW_STAR = true;
 
-let unshuffled = [10]; //[9,19,29,39,49,59,69,79,89,98,9,19,29,39,49,59,69,79,89,98]; //10 - 99; 20 numbers in total
+let unshuffled = [10,20];
 
 if (mode=="formal"){
     unshuffled = [10,19,29,39,49,59,69,79,89,98,10,19,29,39,49,59,69,79,89,98];
@@ -230,17 +230,18 @@ var data = { "round":[],
 
 function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backtracking_distance, FLAG){
     if (FLAG==true){
+        round = round + 1;
         var end= parseInt(performance.now());
         var timeSpent= end-start_time;
         mouse_trace_back = Math.max(0,mouse_trace_back);
-        console.log("Round: "+ (round+1));
+        console.log("Round: "+ round);
         console.log("Time: "+ timeSpent);
         console.log("Line index: "+ insert_symbol_line);
         console.log("Trace back times: "+ parseInt(mouse_trace_back));
         console.log("Cumulative Distance: "+ parseInt(cum_distance));
         console.log("Max Back Tracking Distance: "+ parseInt(max_backtracking_distance));
 
-        data["round"].push(parseInt(round+1));
+        data["round"].push(round);
         data["time"].push(parseInt(timeSpent));
         data["target"].push(parseInt(insert_symbol_line));
         data["traceback"].push(parseInt(mouse_trace_back));
@@ -248,6 +249,8 @@ function update(round,start_time, mouse_trace_back,insert_symbol_line, max_backt
         data["maxbacktrack"].push(parseInt(max_backtracking_distance));
 
         cum_distance = 0;
+
+        return round
     }
 }
 
@@ -291,18 +294,18 @@ $("#svg-container").scroll(function() {
 function test() {  
     var offset = document.getElementById("star1").getBoundingClientRect();
     var y = offset.top;
+    var reset;
     if(document.documentElement.scrollTop == topValue && y>navbar_height-5 && y<navbar_height+20) {
         if (shuffled1.length == 0 && SHOW_STAR == false){
             is_timer_start = false;
             var temp_line_index = insert_symbol_line+1;
-            update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
+            round = update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             data = JSON.stringify(data);
             console.log(data);
             sessionStorage.setItem("scrolling_data", data);
             location.href='./result.html';
         }
         if (shuffled1.length == 0 && SHOW_STAR == true){
-            is_timer_start = false;
             shuffled1 = shuffled2;
             shuffled2 = [];
             SHOW_NUM = true;
@@ -310,7 +313,7 @@ function test() {
             d3.select("#p-1").style("display","none");
             d3.select("#p-2").style("display","block");
             alert("Now you will be told what line to scroll to, and there won't be any stars on that line.");
-            round = 0;
+            reset = true;
         }
         if (shuffled1.length > 0){
             is_timer_start = false;
@@ -321,9 +324,8 @@ function test() {
             var temp_line_index = insert_symbol_line+1;
             insert_symbol_line = shuffled1.shift();
             add_shapes(insert_symbol_line, show_num=SHOW_NUM, show_star=SHOW_STAR);
-            update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
+            round = update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             max_backtracking_distance = 0;
-            round = round + 1;
             d3.selectAll(".num").text(round);
             if (SHOW_STAR == false){
                 d3.select("#line_num").text(insert_symbol_line+1);
@@ -334,6 +336,9 @@ function test() {
             $("#grey_mask").show(); 
             clearInterval(interval);  
             interval = null; 
+        }
+        if (reset == true){
+            round = 0;
         }
     }  
 }
@@ -350,7 +355,6 @@ function scrollDistance (callback, refresh = 66) {
 		isScrolling = setTimeout(function() {
 			end = $( "#svg-container" ).scrollTop();
 			distance = end - start;
-            // console.log(distance);
 			callback(distance, start, end);
 			start = null;
 			end = null;
@@ -363,23 +367,5 @@ function scrollDistance (callback, refresh = 66) {
 scrollDistance(function (distance) {
 	cum_distance = cum_distance+ Math.abs(distance);
 });
-
-// const options = {
-//     apiKey: 'AIzaSyDRjA2WBlCY4yRVSDt_dNwv0GUZLq5CT0o',
-//     sheetId: '19LBbYg3K7FgTa2BmErkBX1pkz3d1xmGYOkuX9SvS3-k',
-//     sheetNumber: 1,
-//     sheetName: 'scrolling-test', // if sheetName is supplied, this will take precedence over sheetNumber
-//     returnAllResults: false,
-//   }
-
-// GSheetReader(
-//     options,
-//     results => {
-//       // do something with the results here
-//     },
-//     error => {
-//       // OPTIONAL: handle errors here
-//     }
-// );
 
 
