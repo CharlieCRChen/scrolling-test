@@ -115,7 +115,7 @@ $( window ).resize(function(){
 // 7. add white space at the end of the svg
 var total_height = window.innerHeight;
 var unit = Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().width)+5;
-var virtualBox_height = side_len-2*unit+40;
+var virtualBox_height = side_len-2*unit;
 temp_svg = d3.select("#svg-container")
             .append("svg")
             .attr("width", "100%")
@@ -239,7 +239,7 @@ function add_shapes(insert_symbol_line, show_num=true, show_star=true){
             }
         }
         if (i == insert_symbol_line && show_star==true){
-            posY += 50;
+            // posY += 50;
             var star = d3.symbol()
                 .type(d3.symbolStar)
                 .size(6700);
@@ -253,7 +253,17 @@ function add_shapes(insert_symbol_line, show_num=true, show_star=true){
             if (show_num==true){
                 add_text(i, posY);
             }
-            posY += 50;
+            d3.selectAll(".star").style('opacity', 0);
+            var star = d3.symbol()
+                .type(d3.symbolStar)
+                .size(3000);
+            for (let j =0; j<3; j++){
+                g.append("path")
+                .attr("d", star)
+                .attr("id", function(){return "star"+(j)})
+                .attr("transform", function(d) { return "translate(" + posX_star[j] + "," + (posY+55) + ")"; })
+            }
+            // posY += 50;
         }
         else{
             choice = getRandomInt(3);
