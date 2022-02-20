@@ -89,8 +89,7 @@
             </div>
         </div>
         <script>
-            var info_data = JSON.parse(sessionStorage.getItem("info"))
-            console.log(info_data);
+            var info_data = JSON.parse(sessionStorage.getItem("info"));
             $("#name_val").text(info_data["username"]);
             $("#id_val").text(info_data["id"]);
             $("#type_val").text(info_data["type"]);
@@ -99,7 +98,7 @@
             $("#exp_val").text(info_data["exp"]);
 
             var data = JSON.parse(sessionStorage.getItem("scrolling_data"))
-            // console.log(data);
+
             //init container
             var div = $("<div>").addClass("key-value-pair");
             var label_key = $("<label>").addClass("key");
@@ -130,6 +129,7 @@
                 label_value.text(value);
                 label_key.appendTo(div);
                 label_value.appendTo(div);
+                $("<br>").appendTo(div);
                 $("#show_data").append(div);
                 refresh_container();
             }
