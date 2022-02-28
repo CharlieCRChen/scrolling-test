@@ -141,6 +141,10 @@ $("#btn-start").click(function(){
 })
 
 // 9. set the onscroll event in the svg container
+$("#grey_area").scroll(function() {
+    console.log("text");
+})
+
 $("#svg-container").scroll(function() {
     if (START_FLAG==true){
         var offset = document.getElementById("star1").getBoundingClientRect();
@@ -148,7 +152,6 @@ $("#svg-container").scroll(function() {
             max_backtracking_distance = -offset.top;
         }
         var y = parseInt(offset.top-$( "#svg-container" ).scrollTop());
-        // console.log([y,pre_y,direction])
         if ((direction==-1) && (y-pre_y>0)){
             mouse_trace_back = mouse_trace_back + 1;
             direction = 1;
@@ -164,6 +167,7 @@ $("#svg-container").scroll(function() {
         topValue = document.documentElement.scrollTop;  
     }
 }) 
+
 
 // 10. calculate cumlative distance
 scrollDistance(function (distance) {
@@ -311,7 +315,6 @@ function isTargetInGreyArea() {
     var offset = document.getElementById("star1").getBoundingClientRect();
     var y = offset.top;
     var reset = false;
-    console.log(y-navbar_height);
     if(document.documentElement.scrollTop == topValue && y>navbar_height-18 && y<navbar_height+30) {
         d3.selectAll(".num").text(round+2);
         if (shuffled1.length == 0 && SHOW_STAR == false){
@@ -319,7 +322,7 @@ function isTargetInGreyArea() {
             var temp_line_index = insert_symbol_line+1;
             round = update(round,begin,mouse_trace_back, temp_line_index, max_backtracking_distance, FLAG);
             data = JSON.stringify(data);
-            console.log(data);
+            // console.log(data);
             sessionStorage.setItem("scrolling_data", data);
             location.href='./result.html';
         }
