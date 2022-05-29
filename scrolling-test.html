@@ -26,15 +26,21 @@
                                 Scrolling test: <strong class="num">1</strong> | Scroll up to land <strong style="color:rgb(255, 180, 42);">LINE</strong> <strong id="line_num" style="color:rgb(255, 180, 42);">10</strong> in the grey area.
                             </p>
                         </div>
-                        <div class="col-xs-2">
+                        <!-- <div class="col-xs-2">
                             <button id="btn-start" class="btn btn-warning navbar-btn">start</button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </nav>
         </div>
 
-        <div id="grey_mask"></div>
+        <div class="popup" id="popup">
+            <h2>Start Testing</h2>
+            <p>Click the button and scroll to the target area as quickly as possible.</p>
+            <button type="button" id="btn-start">start</button>
+        </div>
+
+        <div class="grey_mask" id="grey_mask"></div>
         <div id="grey_area" style="pointer-events: none; touch-action: none;"></div>
 
         <!-- svg shapes -->

@@ -66,8 +66,15 @@ var data = { "round":[], "time":[], "target":[], "traceback":[], "cumDistance":[
 var topValue = 0;
 var interval = null; 
 var START_FLAG = false;
+var popup = document.getElementById('popup');
+var grey_mask = document.getElementById('grey_mask');
 
-// 4. init the svg container
+// display pop up window and start button
+showGreyMask();
+openPopup();
+
+
+// 4. initialize the svg container
 var width = window.innerWidth;
 var navbar_height = document.getElementById("nav").clientHeight;
 window.addEventListener('resize', function() {
@@ -83,7 +90,8 @@ d3.select("#svg-container")
     .style("margin-right", "auto")
     .style("margin-bottom", "auto")
 
-// 5. init the svg in the svg container
+
+// 5. initialize the svg in the svg container
 var svg = d3.select("#svg");
 svg.append("rect")
 .attr("width", "100%")
@@ -128,6 +136,8 @@ temp_svg.append("rect")
 
 // 8. set the click event of the start button
 $("#btn-start").click(function(){
+    closePopup();
+    hideGreyMask();
     // when click the button, scroll to the top and hide the grey mask
     $("#svg-container").scrollTop(0);
     $("#grey_mask").hide();
@@ -189,6 +199,22 @@ scrollDistance(function (distance) {
 
 
 // Functions
+function openPopup(){
+    popup.classList.add("open-popup");
+}
+
+function closePopup(){
+    popup.classList.remove("open-popup");
+}
+
+function showGreyMask(){
+    grey_mask.classList.add("show-grey_mask");
+}
+
+function hideGreyMask(){
+    grey_mask.classList.remove("show-grey_mask");
+}
+
 function getQueryVariable(variable)
 {
        var query = window.location.search.substring(1);
@@ -355,6 +381,8 @@ function isTargetInGreyArea() {
             direction = -1;
             $("#svg-container").scrollTop(0);
             $("#grey_mask").show(); 
+            openPopup();
+            showGreyMask();
             clearInterval(interval);  
             interval = null; 
         }
