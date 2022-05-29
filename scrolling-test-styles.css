@@ -52,7 +52,7 @@ body{
     box-shadow: 0 5px 5px rgba(0,0,0,0.2);
     visibility: hidden;
     z-index: 1;
-    transition: transform 0.4s, top 0.4s;
+    /* transition: transform 0.4s, top 0.4s; */
 }
 
 .open-popup{

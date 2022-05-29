@@ -69,116 +69,25 @@
                         <option>5=This is the main kind of scrolling technique I use (use every day)</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="type">Target Area Height</label>
+                    <select required class="form-control"  name="height" id="height">
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
             </form>
             <!-- <button style="margin-top: 15px;" class="btn-main" [disabled]="!infoForm.valid" (click)="demo()">Demo Run</button> -->
             <button style="margin-top: 15px;" class="btn-main" disabled id="btn-demo">Demo Test</button>
             <button style="margin-top: 15px;" class="btn-main" disabled id="btn-formal">Formal Test</button>
         </div>
-        <style>
-            .info-page {
-                padding: 30px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-            }
-            form {
-                    width:100%;
-                    max-width: 500px;
-                    padding: 30px 0;
-                }
-            .form-group {
-                width:100%;
-            }
-            button {
-                padding: 0.5em 1.5em 0.5em 1.5em;
-                background-color: rgb(187, 187, 187);
-                color: white;
-                border-radius: 4px;
-            }
+        
+        <link rel="stylesheet" href="./info-styles.css">
+        <script src="./show-info.js"></script>
 
-            @media only screen and (hover: none) and (pointer: coarse){
-                body{
-                    font-size: 18pt;
-                }
-                button {
-                    font-size: 1em;
-                }
-                h1 {
-                    font-size: 1.5em;
-                }
-                p {
-                    font-size: 1em;
-                }
-                small {
-                    font-size: 0.7em;
-                }
-            }
-        </style>
-        <script>
-            var inputArray = [false, false, false, false, false];
-
-            $(document).ready(function(){
-                if ($("#username").val() != "" && $("#andrewId").val() != "" && $("#type").val() != "" && 
-                    $("#tech").val() != "" && $("#experience").val() != ""){
-                    inputArray = [true, true, true, true, true];
-                    enableBtn(inputArray);
-                };
-            });
-
-            $("#username").on("input", function () {
-                inputArray[0] = true;
-                enableBtn(inputArray);
-            });
-            $("#andrewId").on("input", function () {
-                inputArray[1] = true;
-                enableBtn(inputArray);
-            });
-            $("#type").on("change", function () {
-                inputArray[2] = true;
-                enableBtn(inputArray);
-            });
-            $("#tech").on("change", function () {
-                inputArray[3] = true;
-                enableBtn(inputArray);
-            });
-            $("#experience").on("change", function () {
-                inputArray[4] = true;
-                enableBtn(inputArray);
-            });
-
-            function enableBtn(array){
-                enable = true;
-                for (var i = 0; i<5; i++){
-                    if (array[i] == false){
-                        enable = false;
-                    }
-                }
-                if (enable==true){
-                    $(".btn-main").css("background-color","black");
-                    $(".btn-main").removeAttr("disabled");
-                }
-            }
-
-            function getValue(){
-                var username = $("#username").val();
-                var id = $("#andrewId").val();
-                var type = $("#type").val();
-                var tech = $("#tech").val();
-                var detail = $("#detail").val();
-                var experience = $("#experience").val();
-                var value =  JSON.stringify({"username":username, "id":id, "type":type, "tech":tech, "detail":detail, "exp":experience});
-                sessionStorage.setItem("info", value);
-            }
-            $("#btn-demo").click(function(){
-                getValue();
-                location.href='./scrolling-test.html?mode=demo'
-            })
-            $("#btn-formal").click(function(){
-                getValue();
-                location.href='./scrolling-test.html?mode=formal'
-            })
-        </script>
     </body>
 
 </html>

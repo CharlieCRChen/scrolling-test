@@ -68,8 +68,15 @@ var interval = null;
 var START_FLAG = false;
 var popup = document.getElementById('popup');
 var grey_mask = document.getElementById('grey_mask');
+var grey_area_height_ratio = 1; // set the height of grey area
 
-// display pop up window and start button
+// get target area height
+var info_data = JSON.parse(sessionStorage.getItem("info"));
+if (info_data["height"] != ""){
+    grey_area_height_ratio = parseInt(info_data["height"]);
+}
+
+// display mask and pop up window
 showGreyMask();
 openPopup();
 
@@ -108,15 +115,24 @@ var pre_y = distance;
 
 d3.select("#grey_area")
     .style("height",function(){
-        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15) +"px";
-        return grey_area_size
+        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15);
+        return grey_area_height_ratio * grey_area_size  +"px"
+    })
+    //set grey area at the center of the svg container
+    .style("top", function(){
+        console.log(document.getElementById("svg-container").offsetWidth / 2);
+        return Math.round(document.getElementById("svg-container").offsetWidth - grey_area_height_ratio * grey_area_size) / 2 + "px";
     })
 
 $( window ).resize(function(){
     d3.select("#grey_area")
     .style("height",function(){
-        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15) +"px";
-        return grey_area_size
+        grey_area_size = (Math.round(d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15) ;
+        return grey_area_height_ratio * grey_area_size+"px"
+    })
+    //set grey area at the center of the svg container
+    .style("top", function(){
+        return Math.round(document.getElementById("svg-container").offsetWidth - grey_area_height_ratio * grey_area_size) / 2 + "px";
     })
 })
 
@@ -341,7 +357,9 @@ function isTargetInGreyArea() {
     var offset = document.getElementById("star1").getBoundingClientRect();
     var y = offset.top;
     var reset = false;
-    if(document.documentElement.scrollTop == topValue && y>navbar_height-18 && y<navbar_height+30) {
+    var grey_area_top = Math.round((document.getElementById("svg-container").offsetWidth - (d3.selectAll(".star")._groups[0][0].getBoundingClientRect().height)+15)) / 2;
+    // if(document.documentElement.scrollTop == topValue && y>navbar_height-18 && y<navbar_height+30) {
+    if(document.documentElement.scrollTop == topValue && y>grey_area_top-18*grey_area_height_ratio && y<grey_area_top+30*grey_area_height_ratio) {
         d3.selectAll(".num").text(round+2);
         if (shuffled1.length == 0 && SHOW_STAR == false){
             is_timer_start = false;
